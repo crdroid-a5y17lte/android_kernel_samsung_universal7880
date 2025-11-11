@@ -1693,6 +1693,8 @@ int path_umount(struct path *path, int flags)
 	return ret;
 }
 
+EXPORT_SYMBOL(path_umount);
+
 /*
  *	The 2.0 compatible umount. No flags.
  */
