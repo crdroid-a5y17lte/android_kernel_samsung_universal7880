@@ -1,0 +1,46 @@
+name: Build Kernel for a5y17lte & a7y17lte
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ rise-ksu, rise-ksu-staging ]
+
+jobs:
+  build:
+    name: Build for ${{ matrix.device }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - device: a5y17lte
+            defconfig: lineage-a5y17lte_defconfig
+          - device: a7y17lte
+            defconfig: lineage-a7y17lte_defconfig
+
+    steps:
+    - name: Checkout kernel source
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Checkout zipper (AnyKernel3)
+      uses: actions/checkout@v4
+      with:
+        repository: cyberc3dr/AnyKernel3
+        path: zipper
+
+    - name: Build Android Kernel for ${{ matrix.device }}
+      uses: cyberc3dr/android-kernel-actions@a57y17lte
+      id: build
+      env:
+        NAME: ${{ matrix.device }}-kernel
+      with:
+        arch: arm64
+        defconfig: ${{ matrix.defconfig }}
+        image: Image
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.device }}
+        path: zipper/*.zip
