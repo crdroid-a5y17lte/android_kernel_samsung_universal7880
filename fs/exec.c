@@ -1607,7 +1607,7 @@ static int exec_binprm(struct linux_binprm *bprm)
 /*
  * sys_execve() executes a new program.
  */
-__attribute__((used, noipa))
+__attribute__((used)) asmlinkage
 static int do_execve_common(struct filename *filename,
 				struct user_arg_ptr argv,
 				struct user_arg_ptr envp)
