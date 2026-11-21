@@ -42,3 +42,11 @@ jobs:
       with:
         name: ${{ matrix.device }}
         path: zipper/*.zip
+
+    - name: Upload vmlinux and kallsyms
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{ matrix.device }}-vmlinux-kallsyms
+        path: |
+          out/vmlinux
+          out/System.map
